@@ -9,5 +9,5 @@ export async function fetchPublishedRecipes(): Promise<DbRecipe[]> {
     .eq("published", true)
     .order("created_at", { ascending: false });
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }

@@ -34,7 +34,7 @@ export default function RecipeActions({
     setSaved(bookmarkData === "true");
 
     const supabase = createClient();
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(({ data }: { data: { user: { id: string } | null } }) => {
       const uid = data.user?.id ?? null;
       setUserId(uid);
 
@@ -45,7 +45,9 @@ export default function RecipeActions({
           .eq("user_id", uid)
           .eq("recipe_id", recipeId)
           .maybeSingle()
-          .then(({ data: row }) => setLiked(Boolean(row)));
+          .then(({ data: row }: { data: { recipe_id: number } | null }) =>
+            setLiked(Boolean(row))
+          );
       }
     });
   }, [recipeId]);

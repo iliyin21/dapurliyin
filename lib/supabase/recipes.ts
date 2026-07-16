@@ -22,7 +22,7 @@ export async function getFeaturedRecipes(limit = 4): Promise<DbRecipe[]> {
     .eq("featured", true)
     .limit(limit);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getTrendingRecipes(limit = 6): Promise<DbRecipe[]> {
@@ -34,7 +34,7 @@ export async function getTrendingRecipes(limit = 6): Promise<DbRecipe[]> {
     .order("views", { ascending: false })
     .limit(limit);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getPopularRecipes(limit = 6): Promise<DbRecipe[]> {
@@ -46,7 +46,7 @@ export async function getPopularRecipes(limit = 6): Promise<DbRecipe[]> {
     .order("favorites_count", { ascending: false })
     .limit(limit);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getNewRecipes(limit = 6): Promise<DbRecipe[]> {
@@ -58,7 +58,7 @@ export async function getNewRecipes(limit = 6): Promise<DbRecipe[]> {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getRelatedRecipes(
@@ -74,7 +74,7 @@ export async function getRelatedRecipes(
     .neq("id", recipe.id)
     .limit(limit);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getRecipesWithVideo(): Promise<DbRecipe[]> {
@@ -85,7 +85,7 @@ export async function getRecipesWithVideo(): Promise<DbRecipe[]> {
     .eq("published", true)
     .not("video", "is", null);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 /** All published recipes — used for the browse/search page and category counts. */
@@ -97,7 +97,7 @@ export async function getAllPublishedRecipes(): Promise<DbRecipe[]> {
     .eq("published", true)
     .order("created_at", { ascending: false });
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 /** All recipes including drafts — used by the admin dashboard (RLS restricts this to admins). */
@@ -108,7 +108,7 @@ export async function getAllRecipesForAdmin(): Promise<DbRecipe[]> {
     .select("*")
     .order("created_at", { ascending: false });
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getRecipesByIds(ids: number[]): Promise<DbRecipe[]> {
@@ -121,11 +121,11 @@ export async function getRecipesByIds(ids: number[]): Promise<DbRecipe[]> {
     .in("id", ids)
     .eq("published", true);
 
-  return (data ?? []).map((row) => mapRecipeRow(row as RecipeRow));
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }
 
 export async function getAllRecipeIds(): Promise<number[]> {
   const supabase = await createClient();
   const { data } = await supabase.from("recipes").select("id").eq("published", true);
-  return (data ?? []).map((row) => row.id as number);
+  return (data ?? []).map((row: { id: number }) => row.id);
 }

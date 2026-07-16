@@ -24,12 +24,14 @@ export default async function AccountPage() {
     .select("recipe_id")
     .eq("user_id", profile.id);
 
-  const favoriteIds = (favoriteRows ?? []).map((row) => row.recipe_id as number);
+  const favoriteIds = (favoriteRows ?? []).map(
+    (row: { recipe_id: number }) => row.recipe_id
+  );
   const favoriteRecipes = await getRecipesByIds(favoriteIds);
 
   const initials = (profile.fullName || profile.email || "U")
     .split(" ")
-    .map((w) => w[0])
+    .map((w: string) => w[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();

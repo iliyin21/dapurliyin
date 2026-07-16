@@ -23,7 +23,7 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
   useEffect(() => {
     const supabase = createClient();
 
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(({ data }: { data: { user: { id: string } | null } }) => {
       const uid = data.user?.id ?? null;
       setUserId(uid);
 
@@ -34,7 +34,9 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
           .eq("user_id", uid)
           .eq("recipe_id", recipe.id)
           .maybeSingle()
-          .then(({ data: row }) => setLiked(Boolean(row)));
+          .then(({ data: row }: { data: { recipe_id: number } | null }) =>
+            setLiked(Boolean(row))
+          );
       }
     });
   }, [recipe.id]);

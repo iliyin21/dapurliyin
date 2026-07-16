@@ -12,7 +12,13 @@ export async function createClient() {
         getAll() {
           return cookieStore.getAll();
         },
-        setAll(cookiesToSet) {
+        setAll(
+          cookiesToSet: {
+            name: string;
+            value: string;
+            options?: Record<string, unknown>;
+          }[]
+        ) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
@@ -44,12 +50,12 @@ export async function getCurrentUserProfile() {
     .from("profiles")
     .select("*")
     .eq("id", user.id)
-    .single();
+    .single<{ full_name: string | null; role: "user" | "admin" }>();
 
   return {
     id: user.id,
     email: user.email,
     fullName: profile?.full_name ?? null,
-    role: (profile?.role as "user" | "admin") ?? "user",
+    role: profile?.role ?? "user",
   };
 }
