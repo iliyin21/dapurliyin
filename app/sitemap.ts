@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 import { getAllPublishedRecipesStatic } from "@/lib/supabase/recipes";
 
-const BASE_URL = "https://dapurliyin.com";
+const BASE_URL = "https://dapurliyin21-phi.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [

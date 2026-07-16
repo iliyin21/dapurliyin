@@ -5,6 +5,7 @@ import {
   getRecipeById,
   getRelatedRecipes,
 } from "@/lib/supabase/recipes";
+import { buildRecipeJsonLd } from "@/lib/seo";
 
 import RecipeHero from "@/components/recipe/recipe-hero";
 import RecipeMeta from "@/components/recipe/recipe-meta";
@@ -61,9 +62,18 @@ export default async function RecipeDetailPage({
   }
 
   const related = await getRelatedRecipes(recipe);
+  const recipeJsonLd = buildRecipeJsonLd(recipe);
 
   return (
     <main className="mx-auto w-full max-w-7xl space-y-8 px-4 py-8 md:px-8">
+      {/* Structured data so Google can show this recipe as a rich result
+          (photo, star rating, cook time) directly in search results. */}
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(recipeJsonLd) }}
+      />
+
       {/* Hero */}
       <RecipeHero
         title={recipe.title}

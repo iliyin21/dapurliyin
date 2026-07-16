@@ -31,13 +31,20 @@ export const metadata: Metadata = {
     "Masakan",
     "Dapur Liyin",
   ],
-  metadataBase: new URL("https://dapurliyin.com"),
+  metadataBase: new URL("https://dapurliyin21-phi.vercel.app"),
   openGraph: {
     title: "Dapur Liyin",
     description: "Inspirasi resep lezat — temukan dan bagikan resep makanan terbaik.",
     siteName: "Dapur Liyin",
     locale: "id_ID",
     type: "website",
+  },
+  // TODO: paste the verification code Google Search Console gives you here,
+  // e.g. verification: { google: "AbCdEfGh123..." }.
+  // See the "HTML tag" option when adding your property at
+  // https://search.google.com/search-console
+  verification: {
+    google: "SofAhd8WuqnOSbv0qlcksHEX3u57BVRBPw5Z1sJ2FSY",
   },
 };
 
