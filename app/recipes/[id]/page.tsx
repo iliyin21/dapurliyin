@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import {
   getRecipeById,
   getRelatedRecipes,
-  getAllRecipeIds,
 } from "@/lib/supabase/recipes";
 
 import RecipeHero from "@/components/recipe/recipe-hero";
@@ -24,11 +23,8 @@ interface RecipeDetailPageProps {
   }>;
 }
 
-// Pre-render every recipe page at build time for better SEO & performance.
-export async function generateStaticParams() {
-  const ids = await getAllRecipeIds();
-  return ids.map((id) => ({ id: String(id) }));
-}
+// Recipe pages render dynamically per-request (data changes via the admin
+// dashboard), so we intentionally don't pre-render them at build time.
 
 export async function generateMetadata({
   params,

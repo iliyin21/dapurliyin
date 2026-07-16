@@ -1,4 +1,5 @@
 import { createClient } from "./server";
+import { createStaticClient } from "./static";
 import { mapRecipeRow, type RecipeRow, type DbRecipe } from "./recipe-mapper";
 import type { Recipe } from "@/data/recipes";
 
@@ -84,6 +85,22 @@ export async function getRecipesWithVideo(): Promise<DbRecipe[]> {
     .select("*")
     .eq("published", true)
     .not("video", "is", null);
+
+  return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
+}
+
+/**
+ * Same as getAllPublishedRecipes but safe to call from build-time contexts
+ * (sitemap.ts, robots.ts, generateStaticParams) that have no request/cookie
+ * context. Only ever reads published rows.
+ */
+export async function getAllPublishedRecipesStatic(): Promise<DbRecipe[]> {
+  const supabase = createStaticClient();
+  const { data } = await supabase
+    .from("recipes")
+    .select("*")
+    .eq("published", true)
+    .order("created_at", { ascending: false });
 
   return (data ?? []).map((row: RecipeRow) => mapRecipeRow(row));
 }

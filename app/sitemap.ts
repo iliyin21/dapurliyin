@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { getAllPublishedRecipes } from "@/lib/supabase/recipes";
+import { getAllPublishedRecipesStatic } from "@/lib/supabase/recipes";
 
 const BASE_URL = "https://dapurliyin.com";
 
@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
   }));
 
-  const recipes = await getAllPublishedRecipes();
+  const recipes = await getAllPublishedRecipesStatic();
   const recipePages = recipes.map((recipe) => ({
     url: `${BASE_URL}/recipes/${recipe.id}`,
     lastModified: new Date(recipe.createdAt),
